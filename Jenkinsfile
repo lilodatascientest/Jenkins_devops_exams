@@ -11,9 +11,9 @@ pipeline {
         stage('Checkout Code') {
           steps {
             git 'https://github.com/lilodin/Jenkins_devops_exams.git'
-            echo ${DOCKERHUB_CREDENTIALS}
-            echo ${DOCKERHUB_REPO}
-            echo ${IMAGE_TAG}
+            echo "${DOCKERHUB_CREDENTIALS}"
+            echo "${DOCKERHUB_REPO}"
+            echo "${IMAGE_TAG}"
             }
         }
     } 
