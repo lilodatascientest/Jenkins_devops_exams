@@ -19,12 +19,14 @@ pipeline {
 
         stage('Build Docker Image') {
           steps {
-            script {
-              docker.build("${DOCKERHUB_REPO}:${IMAGE_TAG}")
+            dir("cast-service") {
+                script {
+                  docker.build("${DOCKERHUB_REPO}:${IMAGE_TAG}")
+                }
             }
           }            
         }
-
+       
 
     } 
 }
