@@ -16,5 +16,15 @@ pipeline {
             echo "${IMAGE_TAG}"
             }
         }
+
+        stage('Build Docker Image') {
+          steps {
+            script {
+              docker.build("${DOCKERHUB_REPO}:${IMAGE_TAG}")
+            }
+          }            
+        }
+
+
     } 
 }
