@@ -25,7 +25,6 @@ pipeline {
               }            
             }
           }
-        
 
 
         stage('Build and Push Movie-Service') {
@@ -38,6 +37,20 @@ pipeline {
             }
           }
         }
+
+        stage('Deploy Cast DB') {
+          steps {
+            sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=dev'
+          }
+        }
+
+      stage('Deploy Cast Service') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=dev'
+        }
+      }
+
+      
 
     } 
 }
