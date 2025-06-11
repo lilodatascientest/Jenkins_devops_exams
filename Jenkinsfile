@@ -21,9 +21,11 @@ pipeline {
                 def castImage = docker.build("lilodin/cast-service:${IMAGE_TAG}", "-f cast-service/Dockerfile cast-service")
                 docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
                     castImage.push()
+                }
+              }            
             }
-          }            
-        }
+          }
+        
 
 
         stage('Build and Push Movie-Service') {
