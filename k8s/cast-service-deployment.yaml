@@ -16,6 +16,7 @@ spec:
       containers:
         - name: cast-service
           image: lilodin/cast-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
