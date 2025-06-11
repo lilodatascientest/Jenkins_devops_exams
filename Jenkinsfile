@@ -102,5 +102,31 @@ pipeline {
         }
       }
 
+      stage('Deploy Movie DB to DEV') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-db-deployment.yaml --namespace=dev'
+        }
+      }    
+
+      stage('Deploy Movie Service to DEV') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-service-deployment.yaml --namespace=dev'
+        }
+      }
+
+      stage('Deploy Movie DB to QA') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-db-deployment.yaml --namespace=qa'
+        }
+      }
+
+      stage('Deploy Movie Service to QA') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-service-deployment.yaml --namespace=qa'
+        }
+      }
+      
+    
+
     } 
 }
