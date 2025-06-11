@@ -38,19 +38,53 @@ pipeline {
           }
         }
 
-        stage('Deploy Cast DB') {
+        stage('Deploy Cast DB to DEV') {
           steps {
             sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=dev'
           }
         }
 
-      stage('Deploy Cast Service') {
+      stage('Deploy Cast Service to DEV') {
         steps {
           sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=dev'
         }
       }
 
-      
+      stage('Deploy Cast DB to QA') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=qa'
+        }
+      }
+
+      stage('Deploy Cast Service to QA') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=qa'
+        }
+      }
+
+      stage('Deploy Cast DB to STAGING') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=staging'
+        }
+      }
+
+      stage('Deploy Cast Service to STAGING') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=staging'
+        }
+      }
+
+      stage('Deploy Cast DB to PROD') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=prod'
+        }
+      }
+
+      stage('Deploy Cast Service to PROD') {
+        steps {
+          sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=prod'
+        }
+      }
 
     } 
 }
