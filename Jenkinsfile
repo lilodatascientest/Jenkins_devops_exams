@@ -3,7 +3,7 @@ pipeline {
   
     environment {
       DOCKERHUB_CREDENTIALS = 'dockerhub-creds' // ID from Jenkins credentials
-      IMAGE_TAG = "${env.BUILD_NUMBER}"
+      IMAGE_TAG = 'latest'
     }
 
     stages {
