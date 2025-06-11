@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: movie-service
-  namespace: dev
 spec:
   replicas: 1
   selector:
@@ -28,7 +27,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: movie-service
-  namespace: dev
 spec:
   selector:
     app: movie-service
