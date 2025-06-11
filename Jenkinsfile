@@ -3,7 +3,6 @@ pipeline {
   
     environment {
       DOCKERHUB_CREDENTIALS = 'dockerhub-creds' // ID from Jenkins credentials
-      DOCKERHUB_REPO = 'lilodin/myapp'
       IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
@@ -12,25 +11,27 @@ pipeline {
           steps {
             git 'https://github.com/lilodatascientest/Jenkins_devops_exams.git'
             echo "${DOCKERHUB_CREDENTIALS}"
-            echo "${DOCKERHUB_REPO}"
             echo "${IMAGE_TAG}"
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build and Push Cast-Service') {
           steps {
             script {
-                def image = docker.build("${DOCKERHUB_REPO}:${IMAGE_TAG}", "-f cast-service/Dockerfile cast-service")
+                def castImage = docker.build("lilodin/cast-service:${IMAGE_TAG}", "-f cast-service/Dockerfile cast-service")
+                docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
+                    castImage.push()
             }
           }            
         }
 
 
-        stage('Push to DockerHub') {
+        stage('Build and Push Movie-Service') {
           steps {
             script {
-              docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
-                docker.image("${DOCKERHUB_REPO}:${IMAGE_TAG}").push()
+                def movieImage = docker.build("lilodin/movie-service:${IMAGE_TAG}", "-f movie-service/Dockerfile movie-service")
+                docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
+                    movieImage.push()
               }
             }
           }
