@@ -74,7 +74,7 @@ pipeline {
         }
       }
 
-      stage('Manual Approval for PROD') {
+      stage('Manual Approval for Cast DB for PROD') {
         when {
           branch 'master'
         }
@@ -138,7 +138,7 @@ pipeline {
         }
       }
       
-      stage('Manual Approval for PROD') {
+      stage('Manual Approval for Movie Service for PROD') {
         when {
           branch 'master'
         }
