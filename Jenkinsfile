@@ -125,8 +125,37 @@ pipeline {
           sh 'kubectl apply -f k8s/movie-service-deployment.yaml --namespace=qa'
         }
       }
+
+      stage('Deploy Movie DB to STAGING') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-db-deployment.yaml --namespace=staging'
+        }
+      }
+
+      stage('Deploy Movie Service to STAGING') {
+        steps {
+          sh 'kubectl apply -f k8s/movie-service-deployment.yaml --namespace=staging'
+        }
+      }
       
-    
+      stage('Manual Approval for PROD') {
+        when {
+          branch 'master'
+        }
+        steps {
+          input message: 'Do you want to deploy to production?', ok: 'Deploy'
+        }
+      }
+        
+
+      stage('Deploy Movie Service to PROD') {
+        when {
+          branch 'master'
+        }
+        steps {
+          sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=prod'
+        }
+      }
 
     } 
 }
