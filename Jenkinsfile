@@ -160,9 +160,8 @@ pipeline {
       stage('Deploy NGINX') {
         steps {
           sh '''
-          kubectl create configmap nginx-config --from-file=nginx.conf=k8s/nginx_config.conf --namespace=dev --dry-run=client -o yaml | kubectl apply -f -
+          kubectl apply -f k8s/nginx-configmap.yaml --namespace=dev
           kubectl apply -f k8s/nginx-deployment.yaml --namespace=dev
-          kubectl apply -f k8s/nginx-service.yaml --namespace=dev
           '''
           }
         }
