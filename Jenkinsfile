@@ -74,13 +74,29 @@ pipeline {
         }
       }
 
+      stage('Manual Approval for PROD') {
+        when {
+          branch 'master'
+        }
+        steps {
+          input message: 'Do you want to deploy to production?', ok: 'Deploy'
+        }
+      }
+        
+
       stage('Deploy Cast DB to PROD') {
+        when {
+          branch 'master'
+        }
         steps {
           sh 'kubectl apply -f k8s/cast-db-deployment.yaml --namespace=prod'
         }
       }
 
       stage('Deploy Cast Service to PROD') {
+        when {
+          branch 'master'
+        }
         steps {
           sh 'kubectl apply -f k8s/cast-service-deployment.yaml --namespace=prod'
         }
