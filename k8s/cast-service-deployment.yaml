@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: cast-service
-          image: lilodin/cast-service:14
+          image: lilodin/cast-service:latest
           ports:
             - containerPort: 8000
           env:
