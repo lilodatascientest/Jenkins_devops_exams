@@ -157,7 +157,7 @@ pipeline {
         }
       }
 
-      stage('Deploy NGINX') {
+      stage('Deploy NGINX to DEV') {
         steps {
           sh '''
           kubectl apply -f k8s/nginx-configmap.yaml --namespace=dev
@@ -166,6 +166,44 @@ pipeline {
           }
         }
 
+      stage('Deploy NGINX to QA') {
+        steps {
+          sh '''
+          kubectl apply -f k8s/nginx-configmap.yaml --namespace=qa
+          kubectl apply -f k8s/nginx-service-deployment.yaml --namespace=qa
+          '''
+          }
+        }
+
+      stage('Deploy NGINX to STAGING') {
+        steps {
+          sh '''
+          kubectl apply -f k8s/nginx-configmap.yaml --namespace=staging
+          kubectl apply -f k8s/nginx-service-deployment.yaml --namespace=staging
+          '''
+          }
+        }
+
+      stage('Manual Approval for NGINX for PROD') {
+        when {
+          branch 'master'
+        }
+        steps {
+          input message: 'Do you want to deploy to production?', ok: 'Deploy'
+        }
+      }
+
+      stage('Deploy NGINX to PROD') {
+        when {
+          branch 'master'
+        }
+        steps {
+          sh '''
+          kubectl apply -f k8s/nginx-configmap.yaml --namespace=prod
+          kubectl apply -f k8s/nginx-service-deployment.yaml --namespace=prod
+          '''
+          }
+        }
        
     } 
 }
