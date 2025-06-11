@@ -161,7 +161,7 @@ pipeline {
         steps {
           sh '''
           kubectl apply -f k8s/nginx-configmap.yaml --namespace=dev
-          kubectl apply -f k8s/nginx-deployment.yaml --namespace=dev
+          kubectl apply -f k8s/nginx-service-deployment.yaml --namespace=dev
           '''
           }
         }
