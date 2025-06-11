@@ -1,35 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cast-service
+  name: cast-db
   namespace: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cast-service
+      app: cast-db
   template:
     metadata:
       labels:
-        app: cast-service
+        app: cast-db
     spec:
       containers:
-        - name: cast-service
-          image: lilodin/cast-service:latest
-          ports:
-            - containerPort: 8000
+        - name: cast-db
+          image: postgres:12.1-alpine
           env:
-            - name: DATABASE_URI
-              value: postgresql://cast_db_username:cast_db_password@cast-db/cast_db_dev
+            - name: POSTGRES_USER
+              value: cast_db_username
+            - name: POSTGRES_PASSWORD
+              value: cast_db_password
+            - name: POSTGRES_DB
+              value: cast_db_dev
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: cast-db-storage
+      volumes:
+        - name: cast-db-storage
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cast-service
+  name: cast-db
   namespace: dev
 spec:
   selector:
-    app: cast-service
+    app: cast-db
   ports:
-    - port: 8000
-      targetPort: 8000
+    - port: 5432
+      targetPort: 5432
