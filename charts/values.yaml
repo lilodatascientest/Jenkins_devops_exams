@@ -93,3 +93,14 @@ castdb:
     POSTGRES_USER: cast_db_username
     POSTGRES_PASSWORD: cast_db_password
     POSTGRES_DB: cast_db_dev
+
+castservice:
+  name: cast-service
+  replicas: 1
+  image: 
+    repository: lilodin/cast-service
+    tag: latest
+  port: 8000
+  env:
+    DATABASE_URI: postgresql://cast_db_username:cast_db_password@cast-db/cast_db_dev
+
