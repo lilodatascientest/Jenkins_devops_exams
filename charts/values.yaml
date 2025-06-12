@@ -135,3 +135,10 @@ nginx:
             proxy_pass http://cast-service:8000/api/v1/casts/;
         }
     }
+
+nginx:
+  name: nginx
+  replicas: 1
+  image: nginx:latest
+  port: 8080
+  configMapName: nginx-config
