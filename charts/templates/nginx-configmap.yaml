@@ -13,3 +13,11 @@ data:
             proxy_pass http://cast-service:8000/api/v1/casts/;
         }
     }
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.nginx.name }}
+data:
+  default.conf: |
+{{ .Values.nginx.config | indent 4 }}
