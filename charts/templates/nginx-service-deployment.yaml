@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.nginx.name }}
+  name: {{ .Values.nginxservice.name }}
 spec:
-  replicas: {{ .Values.nginx.replicas }}
+  replicas: {{ .Values.nginxservice.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.nginx.name }}
+      app: {{ .Values.nginxservice.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.nginx.name }}
+        app: {{ .Values.nginxservice.name }}
     spec:
       containers:
-        - name: {{ .Values.nginx.name }}
-          image: {{ .Values.nginx.image }}
+        - name: {{ .Values.nginxservice.name }}
+          image: {{ .Values.nginxservice.image }}
           ports:
-            - containerPort: {{ .Values.nginx.port }}
+            - containerPort: {{ .Values.nginxservice.port }}
           volumeMounts:
             - name: nginx-config
               mountPath: /etc/nginx/conf.d/default.conf
@@ -24,15 +24,15 @@ spec:
       volumes:
         - name: nginx-config
           configMap:
-            name: {{ .Values.nginx.configMapName }}
+            name: {{ .Values.nginxservice.configMapName }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.nginx.name }}
+  name: {{ .Values.nginxservice.name }}
 spec:
   selector:
-    app: {{ .Values.nginx.name }}
+    app: {{ .Values.nginxservice.name }}
   ports:
-    - port: {{ .Values.nginx.port }}
-      targetPort: {{ .Values.nginx.port }}
+    - port: {{ .Values.nginxservice.port }}
+      targetPort: {{ .Values.nginxservice.port }}
