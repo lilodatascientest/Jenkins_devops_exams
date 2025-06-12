@@ -2,37 +2,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: movie-service
+  name: {{ .Values.movieservice.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.movieservice.replicas }}
   selector:
     matchLabels:
-      app: movie-service
+      app: {{ .Values.movieservice.name }}
   template:
     metadata:
       labels:
-        app: movie-service
+        app: {{ .Values.movieservice.name }}
     spec:
       containers:
-        - name: movie-service
-          image: lilodin/movie-service:latest
+        - name: {{ .Values.movieservice.name }}
+          image: {{ .Values.movieservice.image }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.movieservice.port }}
           env:
             - name: DATABASE_URI
-              value: postgresql://movie_db_username:movie_db_password@movie-db/movie_db_dev
+              value: {{ .Values.movieservice.env.DATABASE_URI }}
             - name: CAST_SERVICE_HOST_URL
-              value: http://cast-service:8000/api/v1/casts/
+              value: {{ .Values.movieservice.env.CAST_SERVICE_HOST_URL }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: movie-service
+  name: {{ .Values.movieservice.name }}
 spec:
   selector:
-    app: movie-service
+    app: {{ .Values.movieservice.name }}
   ports:
-    - port: 8000
-      targetPort: 8000
-
-
+    - port: {{ .Values.movieservice.port }}
+      targetPort: {{ .Values.movieservice.port }}

@@ -113,3 +113,12 @@ moviedb:
     POSTGRES_USER: movie_db_username
     POSTGRES_PASSWORD: movie_db_password
     POSTGRES_DB: movie_db_dev
+
+movieservice:
+  name: movie-service
+  replicas: 1
+  image: lilodin/movie-service:latest
+  port: 8000
+  env:
+    DATABASE_URI: postgresql://movie_db_username:movie_db_password@movie-db/movie_db_dev
+    CAST_SERVICE_HOST_URL: http://cast-service:8000/api/v1/casts/
