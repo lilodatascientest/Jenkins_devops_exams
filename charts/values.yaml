@@ -104,3 +104,12 @@ castservice:
   env:
     DATABASE_URI: postgresql://cast_db_username:cast_db_password@cast-db/cast_db_dev
 
+moviedb:
+  name: movie-db
+  replicas: 1
+  image: postgres:12.1-alpine
+  port: 5432
+  env:
+    POSTGRES_USER: movie_db_username
+    POSTGRES_PASSWORD: movie_db_password
+    POSTGRES_DB: movie_db_dev
