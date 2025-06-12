@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cast-db
+  name: {{ .Values.castdb.name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.castdb.replicas }}
   selector:
     matchLabels:
-      app: cast-db
+      app: {{ .Values.castdb.name }}
   template:
     metadata:
       labels:
-        app: cast-db
+        app: {{ .Values.castdb.name }}
     spec:
       containers:
-        - name: cast-db
-          image: postgres:12.1-alpine
+        - name: {{ .Values.castdb.name }}
+          image: {{ .Values.castdb.image }}
           env:
             - name: POSTGRES_USER
-              value: cast_db_username
+              value: {{ .Values.castdb.env.POSTGRES_USER }}
             - name: POSTGRES_PASSWORD
-              value: cast_db_password
+              value: {{ .Values.castdb.env.POSTGRES_PASSWORD }}
             - name: POSTGRES_DB
-              value: cast_db_dev
+              value: {{ .Values.castdb.env.POSTGRES_DB }}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: cast-db-storage
@@ -32,10 +32,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cast-db
+  name: {{ .Values.castdb.name }}
 spec:
   selector:
-    app: cast-db
+    app: {{ .Values.castdb.name }}
   ports:
-    - port: 5432
-      targetPort: 5432
+    - port: {{ .Values.castdb.port }}
+      targetPort: {{ .Values.castdb.port }}

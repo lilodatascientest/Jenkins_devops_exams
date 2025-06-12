@@ -83,3 +83,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+castdb:
+  name: cast-db
+  replicas: 1
+  image: postgres:12.1-alpine
+  port: 5432
+  env:
+    POSTGRES_USER: cast_db_username
+    POSTGRES_PASSWORD: cast_db_password
+    POSTGRES_DB: cast_db_dev
