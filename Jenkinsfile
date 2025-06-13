@@ -42,7 +42,11 @@ pipeline {
         }
 
         stage('Deploy to Prod') {
+            when {
+              branch 'master'
+            }
             steps {
+                input message: 'Deploy to Production?', ok: 'Yes, deploy'
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG_FILE')]) {
                     sh '''
                     export KUBECONFIG=$KUBECONFIG_FILE
